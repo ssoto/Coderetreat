@@ -1,17 +1,26 @@
 #!/usr/bin/env python
 
-DEAD = 0
 ALIVE = 1
 
+class Universe(object):
 
-class TwoDimensionsUniverse(object):
+    def __init__(self, dimension):
+        self.dimension = dimension
 
-    def __init__(self, x, y):
-        self.width = x
-        self.height = y
-        self.grid = []
+        grid_list = list()
+        grid_list.append(tuple(self.dimension * [[None] * self.dimension]))
+        self.grid = tuple(grid_list)
 
-    def cell_at(self, x, y):
-        return DEAD
+    def get_height(self):
+        return len(self.grid)
 
-    def initialize(self, x, y, status):
+    def get_width(self):
+        return self.dimension
+
+    def set_status(self, x, y, state):
+        if x < self.dimension and y < self.dimension:
+            self.grid[x][y] = state
+
+    def get_status(self, x, y):
+        if x < self.dimension and y < self.dimension:
+            return self.grid[x][y]
