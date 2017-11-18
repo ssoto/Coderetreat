@@ -1,51 +1,32 @@
 #!/usr/bin/env python
 import random
-DEAD = 0
-ALIVE = 1
-
-
-class Location(object):
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-
-    def is_alive(self):
-        return self.get_status() == ALIVE
-
-
-class Cell(object):
-
-    def __init__(self, status, debug=False, x=None, y=None, status):
-        self.status = status
-        if not debug:
-            self.location = Location(
-                random.randint(1, 10), random.randint(1, 10))
-        else:
-            self.location = Location(x, y)
-
-
-    def is_alive(self):
-        return self.status == ALIVE
-
-    def get_location(self):
-        return self.location
-
 
 class Universe(object):
 
-    def __init__(self, cells_alive):
-        self.number_cells_alive = cells_alive
+    def __init__(self, width, height, alive_cells):
+        self.width = width
+        self.height = height
+        self.alive_cells = alive_cells
+        self.grid = self.get_grid_default()
+        self.setalivecells()
+
+    def get_grid_default(self):
+        grid = list()
+        for i in range(self.width):
+            grid.append([0]*self.height)
+        return grid
+
+    def setalivecells(self):
+        for i in range(self.alive_cells):
+            x = random.randint(0,self.width-1)
+            y = random.randint(0,self.height-1)
+            self.grid[x][y] = 1;
 
     def get_alive_cells(self):
-        cells_alive = []
-        for i in range(self.number_cells_alive):
-            cells_alive.append(Cell(ALIVE))
-        return cells_alive
+        alive_cells = list()
+        for i in range(self.width):
+            for u in range(self.height):
+                if self.grid[i][u] == 1:
+                    alive_cells.append([i, u])
+
+        return alive_cells;
