@@ -1,30 +1,31 @@
 import unittest
 
-from coderetreat.game import Universe, ALIVE
+from coderetreat.game import Universe, Cell, DEAD, ALIVE
 
 
-class TestStringMethods(unittest.TestCase):
+class TestUniverse(unittest.TestCase):
 
-    def test_universe_dimensions(self):
-        universe = Universe(dimension=23)
-        assert universe.dimension == 23
+    def test_check_universe_creation(self):
+        universe = Universe(cells_alive=3)
+        assert len(universe.get_alive_cells()) == 3
 
-    def test_universe_has_right_height(self):
-        universe = Universe(dimension=23)
+    def test_if_cell_is_alive(self):
+        universe = Universe(cells_alive=3)
+        for cell in universe.get_alive_cells():
+            assert cell.is_alive()
 
-        assert universe.get_height() == universe.dimension
+    def test_cells_location_two_dimensions(self):
+        universe = Universe(cells_alive=2)
+        for cell in  universe.get_alive_cells():
+            location = cell.get_location()
+            assert isinstance(location.get_x(), int)
+            assert isinstance(location.get_y(), int)
 
-    def test_universe_has_right_height(self):
-        universe = Universe(dimension=23)
+class TestCell(unittest.TestCase):
 
-        assert universe.get_height() == universe.dimension
-
-    def test_universe_cells_initialization(self):
-        universe = Universe(4)
-
-        universe.set_status(2, 1, ALIVE)
-        assert universe.get_status(2, 1) == ALIVE
-
+    def test_if_cell_is_alive(self):
+        cell = Cell(status=ALIVE)
+        assert cell.is_alive() == ALIVE
 
 if __name__ == '__main__':
     unittest.main()
