@@ -27,6 +27,18 @@ class TestUniverse(unittest.TestCase):
         assert len(universe_cells) == 1
         assert universe_cells[0] == cell_test_1
 
+    def test_universe_updating(self):
+        original_universe = Universe()
+        cell_test_1 = Cell(status=ALIVE, x=3, y=3)
+        original_universe.add_cell(cell_test_1)
+
+        universe = Universe()
+        universe.update(original_universe)
+        universe_cells = universe.get_alive_cells()
+
+        assert len(universe_cells) == 1
+        assert universe_cells[0] == cell_test_1
+
     def test_cell_add_with_listOfCells(self):
         universe = Universe()
         cells = [
@@ -34,6 +46,16 @@ class TestUniverse(unittest.TestCase):
             Cell(status=ALIVE, x=2, y=3), ]
         universe.add_cells(cells)
         assert (len(universe.get_alive_cells()) == 2)
+
+    def test_universe_build_from_cells(self):
+        cells = [
+            Cell(status=ALIVE, x=3, y=3),
+            Cell(status=DEAD, x=1, y=3),
+            Cell(status=ALIVE, x=2, y=3), ]
+        universe = Universe(cells=cells)
+        assert cells[0] in universe.get_alive_cells()
+        assert cells[1] not in universe.get_alive_cells()
+        assert cells[2] in universe.get_alive_cells()
 
     def test_cell_add_with_listOfCells_duplicatedLocations(self):
         universe = Universe()
